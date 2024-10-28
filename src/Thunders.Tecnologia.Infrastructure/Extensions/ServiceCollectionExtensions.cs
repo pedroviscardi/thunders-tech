@@ -7,7 +7,7 @@ using Thunders.Tecnologia.Infrastructure.Repositories;
 
 namespace Thunders.Tecnologia.Infrastructure.Extensions;
 
-public static class ServiceExtensions
+public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
@@ -24,7 +24,7 @@ public static class ServiceExtensions
             dbContext.Database.Migrate();
         }
 
-        services.AddScoped<IPeopleRepository, PeopleRepository>();
+        services.AddScoped<IPersonRepository, PersonRepository>();
 
         return services;
     }

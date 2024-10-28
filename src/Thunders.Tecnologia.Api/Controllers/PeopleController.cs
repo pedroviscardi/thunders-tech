@@ -1,38 +1,72 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Thunders.Tecnologia.Application.Commands;
+using Thunders.Tecnologia.Application.DTOs;
+using Thunders.Tecnologia.Application.Queries;
 
 namespace Thunders.Tecnologia.Api.Controllers;
 
 /// <summary>
-///     People controller
+///     Person controller
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
 public class PeopleController : ControllerBase
 {
-    private readonly ILogger<PeopleController> _logger;
     private readonly IMediator _mediator;
 
     /// <summary>
     ///     Ctor
     /// </summary>
-    /// <param name="logger"></param>
     /// <param name="mediator"></param>
-    public PeopleController(ILogger<PeopleController> logger, IMediator mediator)
+    public PeopleController(IMediator mediator)
     {
-        _logger = logger;
         _mediator = mediator;
     }
 
     /// <summary>
-    ///     Get all people
+    ///     Get person data by id
     /// </summary>
+    /// <param name="id"></param>
     /// <returns></returns>
-    [HttpGet]
-    public IActionResult Get()
+    [HttpGet("{id:guid}")]
+    public async Task<IActionResult> GetById(Guid id)
     {
-        _logger.LogInformation("Fetching all people");
-        // Your logic to get people
-        return Ok();
+        var query = new GetPersonByIdQuery(id);
+        var personDto = await _mediator.Send(query);
+
+        if (personDto is null)
+        {
+            return NotFound();
+        }
+
+        return Ok(personDto);
+    }
+
+    /// <summary>
+    ///     Create person data
+    /// </summary>
+    /// <param name="personDto"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<IActionResult> Add([FromBody] PersonDto personDto)
+    {
+        var command = new CreatePersonCommand(personDto.Name, personDto.Email, personDto.BirthDate);
+        var createdId = await _mediator.Send(command);
+        return CreatedAtAction(nameof(GetById), new {createdId}, personDto);
+    }
+
+    [HttpPut("{id:guid}")]
+    public async Task<IActionResult> Update(Guid id, [FromBody] PersonDto personDto)
+    {
+        if (id != personDto.Id)
+        {
+            return BadRequest("The ID in the URL must match the ID in the body.");
+        }
+
+        var command = new UpdatePersonCommand(personDto.Id, personDto.Name, personDto.Email, personDto.BirthDate);
+        var updatedId = await _mediator.Send(command);
+
+        return Ok(updatedId);
     }
 }

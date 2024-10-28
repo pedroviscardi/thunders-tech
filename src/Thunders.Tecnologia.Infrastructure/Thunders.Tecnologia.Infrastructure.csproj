@@ -15,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Thunders.Tecnologia.Domain\Thunders.Tecnologia.Domain.csproj" />
+      <ProjectReference Include="..\Thunders.Tecnologia.Application\Thunders.Tecnologia.Application.csproj" />
     </ItemGroup>
 
 </Project>

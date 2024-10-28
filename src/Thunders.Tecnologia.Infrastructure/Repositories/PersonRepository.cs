@@ -5,34 +5,34 @@ using Thunders.Tecnologia.Infrastructure.Persistence;
 
 namespace Thunders.Tecnologia.Infrastructure.Repositories;
 
-public class PeopleRepository : IPeopleRepository
+public class PersonRepository : IPersonRepository
 {
     private readonly AppDbContext _context;
 
-    public PeopleRepository(AppDbContext context)
+    public PersonRepository(AppDbContext context)
     {
         _context = context;
     }
 
-    public async Task<People?> GetByIdAsync(Guid id)
+    public async Task<Person?> GetByIdAsync(Guid id)
     {
         return await _context.Peoples.FindAsync(id);
     }
 
-    public async Task<IEnumerable<People>> GetAllAsync()
+    public async Task<IEnumerable<Person>> GetAllAsync()
     {
         return await _context.Peoples.ToListAsync();
     }
 
-    public async Task AddAsync(People people)
+    public async Task AddAsync(Person person)
     {
-        await _context.Peoples.AddAsync(people);
+        await _context.Peoples.AddAsync(person);
         await _context.SaveChangesAsync();
     }
 
-    public async Task UpdateAsync(People people)
+    public async Task UpdateAsync(Person person)
     {
-        _context.Peoples.Update(people);
+        _context.Peoples.Update(person);
         await _context.SaveChangesAsync();
     }
 

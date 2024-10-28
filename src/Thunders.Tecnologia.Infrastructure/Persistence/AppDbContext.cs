@@ -9,7 +9,7 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<People> Peoples { get; set; }
+    public DbSet<Person> Peoples { get; set; }
 
     /// <summary>
     ///     On model creating
@@ -20,12 +20,12 @@ public class AppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
 
         // Configure Email as a unique index
-        modelBuilder.Entity<People>()
+        modelBuilder.Entity<Person>()
             .HasIndex(p => p.Email)
             .IsUnique();
 
-        // Seed data for People table with a fixed GUID
-        modelBuilder.Entity<People>().HasData(new People
+        // Seed data for Person table with a fixed GUID
+        modelBuilder.Entity<Person>().HasData(new Person
         {
             Id = new Guid("b76aeea0-5ddf-4f21-8dbd-5a8a18c7f9d0"),
             Name = "Pedro Paulo Orasmo Viscardi",

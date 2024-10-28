@@ -17,8 +17,10 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Pass IConfiguration to AddInfrastructure
-builder.Services.AddInfrastructure(builder.Configuration)
-    .AddApplication();
+builder.Services
+    .AddInfrastructure(builder.Configuration)
+    .AddApplication()
+    .AddApplicationServices();
 
 var app = builder.Build();
 

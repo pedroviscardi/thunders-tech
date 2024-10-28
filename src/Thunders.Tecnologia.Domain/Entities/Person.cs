@@ -3,9 +3,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Thunders.Tecnologia.Domain.Entities;
 
-[Table("Peoples")]
-public class People
+[Table("Persons")]
+public class Person
 {
+    [Key]
     public Guid Id { get; set; }
 
     [Required]
