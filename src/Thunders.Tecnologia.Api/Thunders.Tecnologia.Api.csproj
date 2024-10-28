@@ -17,12 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Include="..\..\.dockerignore">
-        <Link>.dockerignore</Link>
-      </Content>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Thunders.Tecnologia.Application\Thunders.Tecnologia.Application.csproj" />
       <ProjectReference Include="..\Thunders.Tecnologia.Infrastructure\Thunders.Tecnologia.Infrastructure.csproj" />
     </ItemGroup>
