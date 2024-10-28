@@ -1,0 +1,27 @@
+﻿services:
+  api:
+    build:
+      context: .
+      dockerfile: Thunders.Tecnologia.Api/Dockerfile
+    ports:
+        - "5000:80"  # HTTP
+        - "443:443"  # HTTPS
+    environment:
+        - ASPNETCORE_ENVIRONMENT=Development
+        - ConnectionStrings__DefaultConnection=Host=postgresdb;Database=thundersdb;Username=postgres;Password=yourpassword
+    depends_on:
+        - postgresdb
+
+  postgresdb:
+    image: postgres:latest
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: yourpassword
+      POSTGRES_DB: thundersdb
+    ports:
+        - "5432:5432"
+    volumes:
+        - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
