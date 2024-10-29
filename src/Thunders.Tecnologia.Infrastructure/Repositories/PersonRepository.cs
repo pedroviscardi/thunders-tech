@@ -16,23 +16,23 @@ public class PersonRepository : IPersonRepository
 
     public async Task<Person?> GetByIdAsync(Guid id)
     {
-        return await _context.Peoples.FindAsync(id);
+        return await _context.Persons.FindAsync(id);
     }
 
     public async Task<IEnumerable<Person>> GetAllAsync()
     {
-        return await _context.Peoples.ToListAsync();
+        return await _context.Persons.ToListAsync();
     }
 
     public async Task AddAsync(Person person)
     {
-        await _context.Peoples.AddAsync(person);
+        await _context.Persons.AddAsync(person);
         await _context.SaveChangesAsync();
     }
 
     public async Task UpdateAsync(Person person)
     {
-        _context.Peoples.Update(person);
+        _context.Persons.Update(person);
         await _context.SaveChangesAsync();
     }
 
@@ -41,7 +41,7 @@ public class PersonRepository : IPersonRepository
         var people = await GetByIdAsync(id);
         if (people != null)
         {
-            _context.Peoples.Remove(people);
+            _context.Persons.Remove(people);
             await _context.SaveChangesAsync();
         }
     }

@@ -58,31 +58,31 @@ public class PersonController : ControllerBase
     /// <summary>
     ///     Creates a new person with the specified data.
     /// </summary>
-    /// <param name="personDto">The data transfer object containing person details.</param>
+    /// <param name="request">The data transfer object containing person details.</param>
     /// <returns>A 201 Created response with the location of the new person resource.</returns>
     [HttpPost("[action]")]
-    public async Task<IActionResult> Add([FromBody] PersonDto personDto)
+    public async Task<IActionResult> Add([FromBody] PersonDto request)
     {
-        var command = new CreatePersonCommand(personDto.Name, personDto.Email, personDto.DateOfBirth);
+        var command = new CreatePersonCommand(request.Name, request.Email, request.DateOfBirth);
         var createdId = await _mediator.Send(command);
-        return CreatedAtAction("GetById", new {id = createdId}, personDto);
+        return CreatedAtAction("GetById", new {id = createdId}, request);
     }
 
     /// <summary>
     ///     Updates the person data with the specified identifier.
     /// </summary>
     /// <param name="id">The unique identifier of the person.</param>
-    /// <param name="personDto">The updated data transfer object containing person details.</param>
+    /// <param name="request">The updated data transfer object containing person details.</param>
     /// <returns>An <see cref="IActionResult" /> indicating the outcome of the update operation.</returns>
     [HttpPut("[action]/{id:guid}")]
-    public async Task<IActionResult> Update(Guid id, [FromBody] PersonDto personDto)
+    public async Task<IActionResult> Update(Guid id, [FromBody] PersonDto request)
     {
-        if (id != personDto.Id)
+        if (id != request.Id)
         {
             return BadRequest("The ID in the URL must match the ID in the body.");
         }
 
-        var command = new UpdatePersonCommand(personDto.Id, personDto.Name, personDto.Email, personDto.DateOfBirth);
+        var command = new UpdatePersonCommand(request.Id, request.Name, request.Email, request.DateOfBirth);
         var result = await _mediator.Send(command);
 
         return result ? Accepted() : NotFound();

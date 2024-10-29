@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         services.AddScoped<IPersonService, PersonService>();
+        services.AddScoped<ITaskService, TaskService>();
         return services;
     }
 }

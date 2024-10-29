@@ -30,7 +30,7 @@ public class PersonRepositoryTests
             DateOfBirth = DateTime.Today.AddYears(-30),
             Email = "john.doe@example.com"
         };
-        await context.Peoples.AddAsync(person);
+        await context.Persons.AddAsync(person);
         await context.SaveChangesAsync();
 
         var result = await repository.GetByIdAsync(person.Id);
@@ -50,7 +50,7 @@ public class PersonRepositoryTests
             new() {Id = Guid.NewGuid(), Name = "Jane Doe", DateOfBirth = DateTime.Today.AddYears(-25), Email = "jane.doe@example.com"},
             new() {Id = Guid.NewGuid(), Name = "John Smith", DateOfBirth = DateTime.Today.AddYears(-28), Email = "john.smith@example.com"}
         };
-        await context.Peoples.AddRangeAsync(persons);
+        await context.Persons.AddRangeAsync(persons);
         await context.SaveChangesAsync();
 
         var result = await repository.GetAllAsync();
@@ -76,7 +76,7 @@ public class PersonRepositoryTests
 
         await repository.AddAsync(person);
 
-        var result = await context.Peoples.FindAsync(person.Id);
+        var result = await context.Persons.FindAsync(person.Id);
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(person);
     }
@@ -94,13 +94,13 @@ public class PersonRepositoryTests
             DateOfBirth = DateTime.Today.AddYears(-35),
             Email = "bob.doe@example.com"
         };
-        await context.Peoples.AddAsync(person);
+        await context.Persons.AddAsync(person);
         await context.SaveChangesAsync();
 
         person.Name = "Updated Bob Doe";
         await repository.UpdateAsync(person);
 
-        var result = await context.Peoples.FindAsync(person.Id);
+        var result = await context.Persons.FindAsync(person.Id);
         result.Should().NotBeNull();
         result?.Name.Should().Be("Updated Bob Doe");
     }
@@ -118,12 +118,12 @@ public class PersonRepositoryTests
             DateOfBirth = DateTime.Today.AddYears(-40),
             Email = "charlie.doe@example.com"
         };
-        await context.Peoples.AddAsync(person);
+        await context.Persons.AddAsync(person);
         await context.SaveChangesAsync();
 
         await repository.DeleteAsync(person.Id);
 
-        var result = await context.Peoples.FindAsync(person.Id);
+        var result = await context.Persons.FindAsync(person.Id);
         result.Should().BeNull();
     }
 }

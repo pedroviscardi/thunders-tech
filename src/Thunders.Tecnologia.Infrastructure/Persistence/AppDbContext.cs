@@ -9,7 +9,8 @@ public class AppDbContext : DbContext
     {
     }
 
-    public DbSet<Person> Peoples { get; set; }
+    public DbSet<Person> Persons { get; set; }
+    public DbSet<Tasks> Tasks { get; set; }
 
     /// <summary>
     ///     On model creating

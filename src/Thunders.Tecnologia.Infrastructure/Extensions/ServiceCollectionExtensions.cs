@@ -25,6 +25,7 @@ public static class ServiceCollectionExtensions
         }
 
         services.AddScoped<IPersonRepository, PersonRepository>();
+        services.AddScoped<ITaskRepository, TaskRepository>();
 
         return services;
     }
