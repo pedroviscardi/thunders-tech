@@ -20,10 +20,10 @@ public class TaskService : ITaskService
         _logger = logger;
     }
 
-    public async Task<IEnumerable<TaskDto>> GetAllAsync()
+    public async Task<IEnumerable<TaskDto>> GetAllAsync(Guid idPerson)
     {
         _logger.LogInformation("Getting all Tasks");
-        var people = await _repository.GetAllAsync();
+        var people = await _repository.GetAllAsync(idPerson);
         return _mapper.Map<IEnumerable<TaskDto>>(people);
     }
 

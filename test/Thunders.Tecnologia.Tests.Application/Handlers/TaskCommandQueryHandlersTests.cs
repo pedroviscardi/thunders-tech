@@ -137,7 +137,7 @@ public class TaskCommandQueryHandlersTests
             }
         };
 
-        _TaskServiceMock.Setup(s => s.GetAllAsync()).ReturnsAsync(tasksDto);
+        _TaskServiceMock.Setup(s => s.GetAllAsync(idPerson)).ReturnsAsync(tasksDto);
 
         // Act
         var result = await getAllHandler.Handle(query, CancellationToken.None);

@@ -57,11 +57,11 @@ public class TaskServiceTests
         }).ToList();
         var logMessage = "Getting all Tasks";
 
-        _repositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(tasks);
+        _repositoryMock.Setup(repo => repo.GetAllAsync(idPerson)).ReturnsAsync(tasks);
         _mapperMock.Setup(mapper => mapper.Map<IEnumerable<TaskDto>>(tasks)).Returns(taskDtos);
 
         // Act
-        var result = await _service.GetAllAsync();
+        var result = await _service.GetAllAsync(idPerson);
 
         // Assert
         result.Should().BeEquivalentTo(taskDtos);
@@ -72,7 +72,7 @@ public class TaskServiceTests
             It.IsAny<Exception>(),
             It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)!), Times.Once);
 
-        _repositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+        _repositoryMock.Verify(repo => repo.GetAllAsync(idPerson), Times.Once);
     }
 
     [Fact]

@@ -19,9 +19,9 @@ public class TaskRepository : ITaskRepository
         return await _context.Tasks.FindAsync(id);
     }
 
-    public async Task<IEnumerable<Tasks>> GetAllAsync()
+    public async Task<IEnumerable<Tasks>> GetAllAsync(Guid idPerson)
     {
-        return await _context.Tasks.ToListAsync();
+        return await _context.Tasks.Where(t => t.IdPerson == idPerson).ToListAsync();
     }
 
     public async Task AddAsync(Tasks task)

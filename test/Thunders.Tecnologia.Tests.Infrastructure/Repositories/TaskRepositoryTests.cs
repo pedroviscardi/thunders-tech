@@ -66,7 +66,7 @@ public class TaskRepositoryTests
         await context.Tasks.AddRangeAsync(tasks);
         await context.SaveChangesAsync();
 
-        var result = await repository.GetAllAsync();
+        var result = await repository.GetAllAsync(idPerson);
 
         var enumerable = result.ToList();
         enumerable.Should().NotBeNullOrEmpty().And.HaveCount(tasks.Count);

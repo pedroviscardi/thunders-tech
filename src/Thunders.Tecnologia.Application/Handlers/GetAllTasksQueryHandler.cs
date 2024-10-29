@@ -16,7 +16,7 @@ public class GetAllTasksQueryHandler : IRequestHandler<GetAllTasksQuery, List<Ta
 
     public async Task<List<TaskDto>> Handle(GetAllTasksQuery request, CancellationToken cancellationToken)
     {
-        var enumerable = await _service.GetAllAsync();
+        var enumerable = await _service.GetAllAsync(request.IdPerson);
         return enumerable.ToList();
     }
 }
