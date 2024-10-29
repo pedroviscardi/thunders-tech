@@ -65,7 +65,7 @@ public class PersonController : ControllerBase
     {
         var command = new CreatePersonCommand(personDto.Name, personDto.Email, personDto.DateOfBirth);
         var createdId = await _mediator.Send(command);
-        return CreatedAtAction(nameof(GetById), new {createdId}, personDto);
+        return CreatedAtAction("GetById", new {id = createdId}, personDto);
     }
 
     /// <summary>
