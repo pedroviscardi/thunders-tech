@@ -4,8 +4,7 @@
       context: .
       dockerfile: Thunders.Tecnologia.Api/Dockerfile
     ports:
-      - "5000:5000"
-      - "443:443"
+      - "5000:5000"      
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ConnectionStrings__DefaultConnection=Host=postgresdb;Database=thundersdb;Username=postgres;Password=yourpassword
