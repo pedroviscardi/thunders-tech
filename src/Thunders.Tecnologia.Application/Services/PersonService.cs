@@ -47,7 +47,6 @@ public class PersonService : IPersonService
         _logger.LogInformation("Adding new person with Name: {PersonName} and Email: {PersonEmail}", personDto.Name, personDto.Email);
 
         var person = _mapper.Map<Person>(personDto);
-        person.Id = Guid.NewGuid();
         await _peopleRepository.AddAsync(person);
 
         _logger.LogInformation("Person added successfully with ID: {PersonId}", person.Id);
