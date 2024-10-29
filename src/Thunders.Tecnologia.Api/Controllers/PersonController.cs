@@ -44,6 +44,18 @@ public class PersonController : ControllerBase
     }
 
     /// <summary>
+    ///     Get all persons
+    /// </summary>
+    /// <returns></returns>
+    [HttpGet]
+    public async Task<IActionResult> GetAll()
+    {
+        var query = new GetAllPersonQuery();
+        var persons = await _mediator.Send(query);
+        return Ok(persons);
+    }
+
+    /// <summary>
     ///     Create person data
     /// </summary>
     /// <param name="personDto"></param>
@@ -56,6 +68,12 @@ public class PersonController : ControllerBase
         return CreatedAtAction(nameof(GetById), new {createdId}, personDto);
     }
 
+    /// <summary>
+    ///     Update data
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="personDto"></param>
+    /// <returns></returns>
     [HttpPut("{id:guid}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] PersonDto personDto)
     {
@@ -65,8 +83,22 @@ public class PersonController : ControllerBase
         }
 
         var command = new UpdatePersonCommand(personDto.Id, personDto.Name, personDto.Email, personDto.DateOfBirth);
-        var updatedId = await _mediator.Send(command);
+        var result = await _mediator.Send(command);
 
-        return Ok(updatedId);
+        return result ? Accepted() : NotFound();
+    }
+
+    /// <summary>
+    ///     Delete person
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpDelete("{id:guid}")]
+    public async Task<IActionResult> Delete(Guid id)
+    {
+        var command = new DeletePersonCommand(id);
+        var result = await _mediator.Send(command);
+
+        return result ? Accepted() : NotFound();
     }
 }

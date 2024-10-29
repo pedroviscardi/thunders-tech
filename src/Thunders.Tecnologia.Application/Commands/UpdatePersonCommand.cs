@@ -2,7 +2,7 @@
 
 namespace Thunders.Tecnologia.Application.Commands;
 
-public class UpdatePersonCommand : IRequest<Guid>
+public class UpdatePersonCommand : IRequest<bool>
 {
     public UpdatePersonCommand(Guid id, string name, string email, DateTime dateOfBirth)
     {

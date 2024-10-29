@@ -55,7 +55,7 @@ public class PersonService : IPersonService
         return person.Id;
     }
 
-    public async Task UpdateAsync(PersonDto personDto)
+    public async Task<bool> UpdateAsync(PersonDto personDto)
     {
         _logger.LogInformation("Updating person with ID: {PersonId}", personDto.Id);
 
@@ -63,16 +63,18 @@ public class PersonService : IPersonService
         if (person is null)
         {
             _logger.LogWarning("Person with ID: {PersonId} not found. Update aborted", personDto.Id);
-            return;
+            return false;
         }
 
         _mapper.Map(personDto, person);
         await _peopleRepository.UpdateAsync(person);
 
         _logger.LogInformation("Person with ID: {PersonId} updated successfully", personDto.Id);
+
+        return true;
     }
 
-    public async Task DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
         _logger.LogInformation("Deleting person with ID: {PersonId}", id);
 
@@ -80,11 +82,13 @@ public class PersonService : IPersonService
         if (person is null)
         {
             _logger.LogWarning("Person with ID: {PersonId} not found. Deletion aborted", id);
-            return;
+            return false;
         }
 
         await _peopleRepository.DeleteAsync(id);
 
         _logger.LogInformation("Person with ID: {PersonId} deleted successfully", id);
+
+        return true;
     }
 }

@@ -7,7 +7,7 @@ using Thunders.Tecnologia.Application.Interfaces;
 
 namespace Thunders.Tecnologia.Application.Handlers;
 
-public class UpdatePersonCommandHandler : IRequestHandler<UpdatePersonCommand, Guid>
+public class UpdatePersonCommandHandler : IRequestHandler<UpdatePersonCommand, bool>
 {
     private readonly ILogger<UpdatePersonCommandHandler> _logger;
     private readonly IMapper _mapper;
@@ -20,15 +20,15 @@ public class UpdatePersonCommandHandler : IRequestHandler<UpdatePersonCommand, G
         _service = service;
     }
 
-    public async Task<Guid> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdatePersonCommand request, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Updating a new person");
+        _logger.LogInformation("Updating a person");
 
         var update = _mapper.Map<PersonDto>(request);
-        var id = await _service.AddAsync(update);
+        var result = await _service.UpdateAsync(update);
 
-        _logger.LogInformation("Updated a new person with id: {Id}", id);
+        _logger.LogInformation("Updated a person with id: {Id} with successful result: {Result}", request.Id, result);
 
-        return id;
+        return result;
     }
 }
