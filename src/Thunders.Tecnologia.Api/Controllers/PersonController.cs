@@ -7,29 +7,29 @@ using Thunders.Tecnologia.Application.Queries;
 namespace Thunders.Tecnologia.Api.Controllers;
 
 /// <summary>
-///     Person controller
+///     Controller responsible for managing person data.
 /// </summary>
 [ApiController]
-[Route("api/[controller]")]
+[Route("[controller]")]
 public class PersonController : ControllerBase
 {
     private readonly IMediator _mediator;
 
     /// <summary>
-    ///     Ctor
+    ///     Initializes a new instance of the <see cref="PersonController" /> class.
     /// </summary>
-    /// <param name="mediator"></param>
+    /// <param name="mediator">The mediator used for sending commands and queries.</param>
     public PersonController(IMediator mediator)
     {
         _mediator = mediator;
     }
 
     /// <summary>
-    ///     Get person data by id
+    ///     Retrieves the person data by the specified identifier.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    [HttpGet("{id:guid}")]
+    /// <param name="id">The unique identifier of the person.</param>
+    /// <returns>The <see cref="IActionResult" /> containing the person data if found, otherwise a 404 Not Found response.</returns>
+    [HttpGet("get/{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
         var query = new GetPersonByIdQuery(id);
@@ -44,10 +44,10 @@ public class PersonController : ControllerBase
     }
 
     /// <summary>
-    ///     Get all persons
+    ///     Retrieves all persons' data.
     /// </summary>
-    /// <returns></returns>
-    [HttpGet]
+    /// <returns>An <see cref="IActionResult" /> containing a list of all persons.</returns>
+    [HttpGet("get/all")]
     public async Task<IActionResult> GetAll()
     {
         var query = new GetAllPersonQuery();
@@ -56,11 +56,11 @@ public class PersonController : ControllerBase
     }
 
     /// <summary>
-    ///     Create person data
+    ///     Creates a new person with the specified data.
     /// </summary>
-    /// <param name="personDto"></param>
-    /// <returns></returns>
-    [HttpPost]
+    /// <param name="personDto">The data transfer object containing person details.</param>
+    /// <returns>A 201 Created response with the location of the new person resource.</returns>
+    [HttpPost("[action]")]
     public async Task<IActionResult> Add([FromBody] PersonDto personDto)
     {
         var command = new CreatePersonCommand(personDto.Name, personDto.Email, personDto.DateOfBirth);
@@ -69,12 +69,12 @@ public class PersonController : ControllerBase
     }
 
     /// <summary>
-    ///     Update data
+    ///     Updates the person data with the specified identifier.
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="personDto"></param>
-    /// <returns></returns>
-    [HttpPut("{id:guid}")]
+    /// <param name="id">The unique identifier of the person.</param>
+    /// <param name="personDto">The updated data transfer object containing person details.</param>
+    /// <returns>An <see cref="IActionResult" /> indicating the outcome of the update operation.</returns>
+    [HttpPut("[action]/{id:guid}")]
     public async Task<IActionResult> Update(Guid id, [FromBody] PersonDto personDto)
     {
         if (id != personDto.Id)
@@ -89,11 +89,11 @@ public class PersonController : ControllerBase
     }
 
     /// <summary>
-    ///     Delete person
+    ///     Deletes the person with the specified identifier.
     /// </summary>
-    /// <param name="id"></param>
-    /// <returns></returns>
-    [HttpDelete("{id:guid}")]
+    /// <param name="id">The unique identifier of the person to delete.</param>
+    /// <returns>An <see cref="IActionResult" /> indicating the outcome of the delete operation.</returns>
+    [HttpDelete("[action]/{id:guid}")]
     public async Task<IActionResult> Delete(Guid id)
     {
         var command = new DeletePersonCommand(id);
