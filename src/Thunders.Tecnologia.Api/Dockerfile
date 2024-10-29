@@ -2,7 +2,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
 EXPOSE 5000
-EXPOSE 443
+#EXPOSE 443
 
 # Install OpenSSL if it's not already installed in the image
 RUN apt-get update && apt-get install -y openssl
@@ -16,7 +16,8 @@ RUN mkdir /https && \
     openssl pkcs12 -export -out /https/localhost.pfx -inkey /https/localhost.key -in /https/localhost.crt -password pass:yourpassword
 
 # Set environment variables to configure HTTPS with the generated certificate
-ENV ASPNETCORE_URLS=https://+:443;http://+:5000
+#ENV ASPNETCORE_URLS=https://+:443;http://+:5000
+ENV ASPNETCORE_URLS=http://+:5000
 ENV ASPNETCORE_Kestrel__Certificates__Default__Path=/https/localhost.pfx
 ENV ASPNETCORE_Kestrel__Certificates__Default__Password=yourpassword
 

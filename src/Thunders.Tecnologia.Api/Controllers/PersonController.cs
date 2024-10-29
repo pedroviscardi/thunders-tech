@@ -11,7 +11,7 @@ namespace Thunders.Tecnologia.Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("api/[controller]")]
-public class PeopleController : ControllerBase
+public class PersonController : ControllerBase
 {
     private readonly IMediator _mediator;
 
@@ -19,7 +19,7 @@ public class PeopleController : ControllerBase
     ///     Ctor
     /// </summary>
     /// <param name="mediator"></param>
-    public PeopleController(IMediator mediator)
+    public PersonController(IMediator mediator)
     {
         _mediator = mediator;
     }

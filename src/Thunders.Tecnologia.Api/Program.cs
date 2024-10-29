@@ -4,19 +4,16 @@ using Thunders.Tecnologia.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configure Serilog
 Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
     .CreateLogger();
 
-builder.Host.UseSerilog(); // Use Serilog for logging
+builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// Pass IConfiguration to AddInfrastructure
 builder.Services
     .AddInfrastructure(builder.Configuration)
     .AddApplication()
@@ -25,7 +22,8 @@ builder.Services
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
+app.UseSerilogRequestLogging();
 app.UseSwagger();
 app.UseSwaggerUI(c =>
 {
@@ -34,4 +32,5 @@ app.UseSwaggerUI(c =>
 });
 app.UseAuthorization();
 app.MapControllers();
+
 app.Run();
