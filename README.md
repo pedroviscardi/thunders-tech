@@ -1,15 +1,60 @@
-# Thunders Tecnologia API
+# Thunders.Tecnologia.Api
 
-Esta é uma aplicação CRUD desenvolvida em .NET 8, seguindo a arquitetura Clean e implementando CQRS com MediatR. A API é responsável pelo gerenciamento de dados de pessoas.
+## Visão Geral
+Thunders.Tecnologia.Api é um projeto de CRUD em .NET 8 que segue a arquitetura limpa (Clean Architecture) e o padrão CQRS utilizando o MediatR. Este projeto utiliza um único banco de dados com a tabela `Lista de Tarefas`, além de incluir testes de unidade para garantir a qualidade e as melhores práticas do código.
+
+### Tecnologias e Ferramentas Utilizadas
+- .NET 8
+- Docker & Docker Compose
+- Clean Architecture
+- CQRS com MediatR
+- Swagger para documentação de API
+- xUnit, FluentAssertions e Moq para testes
+- Integração contínua e entrega contínua (CI/CD) com GitHub Actions
+- Controle de versão com Git
+
+## Endpoints Disponíveis
+
+### Person Endpoints
+
+| Método | Endpoint               | Descrição                          |
+|--------|-------------------------|------------------------------------|
+| GET    | `/person/get/{id}`      | Obtém uma pessoa pelo ID          |
+| GET    | `/person/get/all`       | Obtém todas as pessoas            |
+| POST   | `/person/add`           | Adiciona uma nova pessoa          |
+| PUT    | `/person/update/{id}`   | Atualiza uma pessoa existente     |
+| DELETE | `/person/delete/{id}`   | Remove uma pessoa pelo ID         |
+
+### Task Endpoints
+
+| Método | Endpoint                     | Descrição                               |
+|--------|-------------------------------|-----------------------------------------|
+| GET    | `/task/get/{id}`              | Obtém uma tarefa pelo ID                |
+| GET    | `/task/get/all/{idPerson}`    | Obtém todas as tarefas de uma pessoa    |
+| POST   | `/task/add`                   | Adiciona uma nova tarefa                |
+| PUT    | `/task/update/{id}`           | Atualiza uma tarefa existente           |
+| DELETE | `/task/delete/{id}`           | Remove uma tarefa pelo ID               |
 
 ## Estrutura do Projeto
 
-A estrutura do projeto é dividida em várias camadas:
+A estrutura do projeto segue a organização em camadas para manter a separação de responsabilidades:
 
-- **Thunders.Tecnologia.Api**: Camada de apresentação que expõe a API REST.
-- **Thunders.Tecnologia.Application**: Camada de lógica de negócios, onde se encontram os comandos, consultas e handlers.
-- **Thunders.Tecnologia.Domain**: Camada de domínio que contém as entidades e interfaces.
-- **Thunders.Tecnologia.Infrastructure**: Camada de acesso a dados que contém o contexto do banco de dados e implementações de repositórios.
+- **Thunders.Tecnologia.Api**: Contém os controladores de API e a configuração de endpoints.
+- **Thunders.Tecnologia.Application**: Contém os serviços e casos de uso da aplicação, utilizando MediatR para consultas e comandos.
+- **Thunders.Tecnologia.Domain**: Define as entidades, interfaces e lógica de domínio.
+- **Thunders.Tecnologia.Infrastructure**: Implementa os repositórios e o acesso a dados.
+
+## Configuração de Injeção de Dependência
+
+A configuração da injeção de dependência utiliza extensões personalizadas para registrar todos os serviços e repositórios necessários, seguindo as melhores práticas de organização.
+
+## Documentação da API com Swagger
+
+A API está documentada com o Swagger para facilitar o entendimento e a interação com os endpoints. A documentação pode ser acessada na rota `/swagger` após iniciar a aplicação.
+
+## Testes de Unidade
+
+Os testes foram implementados utilizando **xUnit** e **FluentAssertions** para garantir a qualidade do código e cobrir os casos de uso dos serviços e repositórios.
 
 ## Requisitos
 
@@ -116,7 +161,7 @@ ENTRYPOINT ["dotnet", "Thunders.Tecnologia.Api.dll"]
 
 A aplicação estará disponível em `http://localhost:5000`.
 
-## Endpoints da API
+## Explicação dos Endpoints da API (Exemplo: Pessoa)
 
 A seguir estão os principais endpoints disponíveis na API:
 
