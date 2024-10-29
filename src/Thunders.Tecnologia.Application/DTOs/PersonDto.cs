@@ -15,5 +15,5 @@ public class PersonDto
     public required string Email { get; set; }
 
     [Required]
-    public required DateTime BirthDate { get; set; }
+    public required DateTime DateOfBirth { get; set; }
 }

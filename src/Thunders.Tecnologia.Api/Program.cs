@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using Serilog;
 using Thunders.Tecnologia.Application.Extensions;
 using Thunders.Tecnologia.Infrastructure.Extensions;
@@ -11,6 +12,19 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+// Add Logging
+builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(dispose: true));
+
+// Add Controllers
+builder.Services.AddControllers().AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+});
+
+// Add Routing
+builder.Services.AddRouting(options => options.LowercaseUrls = true);
+
+// Add Controllers
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -19,6 +33,7 @@ builder.Services
     .AddApplication()
     .AddApplicationServices();
 
+// Build App
 var app = builder.Build();
 
 // Configure the HTTP request pipeline
@@ -32,5 +47,6 @@ app.UseSwaggerUI(c =>
 });
 app.UseAuthorization();
 app.MapControllers();
+app.UseRouting();
 
 app.Run();

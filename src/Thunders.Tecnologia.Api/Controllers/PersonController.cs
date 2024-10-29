@@ -51,7 +51,7 @@ public class PersonController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Add([FromBody] PersonDto personDto)
     {
-        var command = new CreatePersonCommand(personDto.Name, personDto.Email, personDto.BirthDate);
+        var command = new CreatePersonCommand(personDto.Name, personDto.Email, personDto.DateOfBirth);
         var createdId = await _mediator.Send(command);
         return CreatedAtAction(nameof(GetById), new {createdId}, personDto);
     }
@@ -64,7 +64,7 @@ public class PersonController : ControllerBase
             return BadRequest("The ID in the URL must match the ID in the body.");
         }
 
-        var command = new UpdatePersonCommand(personDto.Id, personDto.Name, personDto.Email, personDto.BirthDate);
+        var command = new UpdatePersonCommand(personDto.Id, personDto.Name, personDto.Email, personDto.DateOfBirth);
         var updatedId = await _mediator.Send(command);
 
         return Ok(updatedId);
