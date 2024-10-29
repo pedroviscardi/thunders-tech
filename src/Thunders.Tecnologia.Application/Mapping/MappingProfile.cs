@@ -13,7 +13,7 @@ public class MappingProfile : Profile
         CreateMap<CreatePersonCommand, PersonDto>();
         CreateMap<UpdatePersonCommand, PersonDto>();
 
-        CreateMap<Task, TaskDto>().ReverseMap();
+        CreateMap<Tasks, TaskDto>().ReverseMap();
         CreateMap<CreateTaskCommand, TaskDto>();
         CreateMap<UpdateTaskCommand, TaskDto>();
     }
