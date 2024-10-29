@@ -226,10 +226,6 @@ public class PersonService : IPersonService
 
 O logging é implementado através da injeção de dependência do `ILogger` nos serviços e handlers. Isso permite registrar informações sobre operações, como adições, atualizações e exclusões de pessoas.
 
-## Contribuição
-
-Contribuições são bem-vindas! Sinta-se à vontade para abrir issues ou pull requests.
-
 ## Licença
 
 Este projeto está licenciado sob a MIT License. Veja o arquivo LICENSE para mais detalhes.
