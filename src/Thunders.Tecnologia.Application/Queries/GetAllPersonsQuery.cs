@@ -3,6 +3,6 @@ using Thunders.Tecnologia.Application.DTOs;
 
 namespace Thunders.Tecnologia.Application.Queries;
 
-public class GetAllPersonQuery : IRequest<List<PersonDto>>
+public class GetAllPersonsQuery : IRequest<List<PersonDto>>
 {
 }

@@ -5,16 +5,16 @@ using Thunders.Tecnologia.Application.Queries;
 
 namespace Thunders.Tecnologia.Application.Handlers;
 
-public class GetPersonByIdQueryHandler : IRequestHandler<GetPersonByIdQuery, PersonDto?>
+public class GetByIdPersonQueryHandler : IRequestHandler<GetByIdPersonQuery, PersonDto?>
 {
     private readonly IPersonService _personService;
 
-    public GetPersonByIdQueryHandler(IPersonService personService)
+    public GetByIdPersonQueryHandler(IPersonService personService)
     {
         _personService = personService;
     }
 
-    public async Task<PersonDto?> Handle(GetPersonByIdQuery request, CancellationToken cancellationToken)
+    public async Task<PersonDto?> Handle(GetByIdPersonQuery request, CancellationToken cancellationToken)
     {
         return await _personService.GetByIdAsync(request.Id);
     }

@@ -3,9 +3,9 @@ using Thunders.Tecnologia.Application.DTOs;
 
 namespace Thunders.Tecnologia.Application.Queries;
 
-public class GetPersonByIdQuery : IRequest<PersonDto?>
+public class GetByIdPersonQuery : IRequest<PersonDto?>
 {
-    public GetPersonByIdQuery(Guid id)
+    public GetByIdPersonQuery(Guid id)
     {
         Id = id;
     }

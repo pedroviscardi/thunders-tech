@@ -32,7 +32,7 @@ public class PersonController : ControllerBase
     [HttpGet("get/{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
-        var query = new GetPersonByIdQuery(id);
+        var query = new GetByIdPersonQuery(id);
         var personDto = await _mediator.Send(query);
 
         if (personDto is null)
@@ -50,7 +50,7 @@ public class PersonController : ControllerBase
     [HttpGet("get/all")]
     public async Task<IActionResult> GetAll()
     {
-        var query = new GetAllPersonQuery();
+        var query = new GetAllPersonsQuery();
         var persons = await _mediator.Send(query);
         return Ok(persons);
     }
