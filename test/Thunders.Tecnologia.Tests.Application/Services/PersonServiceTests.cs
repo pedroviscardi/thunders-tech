@@ -3,6 +3,7 @@ using FluentAssertions;
 using Microsoft.Extensions.Logging;
 using Moq;
 using Thunders.Tecnologia.Application.DTOs;
+using Thunders.Tecnologia.Application.Interfaces;
 using Thunders.Tecnologia.Application.Services;
 using Thunders.Tecnologia.Domain.Entities;
 using Thunders.Tecnologia.Domain.Interfaces;
@@ -13,15 +14,15 @@ public class PersonServiceTests
 {
     private readonly Mock<ILogger<PersonService>> _loggerMock;
     private readonly Mock<IMapper> _mapperMock;
-    private readonly Mock<IPersonRepository> _personRepositoryMock;
-    private readonly PersonService _personService;
+    private readonly Mock<IPersonRepository> _repositoryMock;
+    private readonly IPersonService _service;
 
     public PersonServiceTests()
     {
-        _personRepositoryMock = new Mock<IPersonRepository>();
+        _repositoryMock = new Mock<IPersonRepository>();
         _mapperMock = new Mock<IMapper>();
         _loggerMock = new Mock<ILogger<PersonService>>();
-        _personService = new PersonService(_personRepositoryMock.Object, _mapperMock.Object, _loggerMock.Object);
+        _service = new PersonService(_repositoryMock.Object, _mapperMock.Object, _loggerMock.Object);
     }
 
     [Fact]
@@ -32,11 +33,11 @@ public class PersonServiceTests
         var personDtos = persons.Select(p => new PersonDto {Id = p.Id, Name = p.Name, DateOfBirth = p.DateOfBirth, Email = p.Email}).ToList();
         var logMessage = "Getting all persons";
 
-        _personRepositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(persons);
+        _repositoryMock.Setup(repo => repo.GetAllAsync()).ReturnsAsync(persons);
         _mapperMock.Setup(mapper => mapper.Map<IEnumerable<PersonDto>>(persons)).Returns(personDtos);
 
         // Act
-        var result = await _personService.GetAllAsync();
+        var result = await _service.GetAllAsync();
 
         // Assert
         result.Should().BeEquivalentTo(personDtos);
@@ -47,7 +48,7 @@ public class PersonServiceTests
             It.IsAny<Exception>(),
             It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)!), Times.Once);
 
-        _personRepositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
+        _repositoryMock.Verify(repo => repo.GetAllAsync(), Times.Once);
     }
 
     [Fact]
@@ -58,11 +59,11 @@ public class PersonServiceTests
         var personDto = new PersonDto {Id = person.Id, Name = person.Name, DateOfBirth = person.DateOfBirth, Email = person.Email};
         var logMessage = $"Getting person with ID: {person.Id}";
 
-        _personRepositoryMock.Setup(repo => repo.GetByIdAsync(person.Id)).ReturnsAsync(person);
+        _repositoryMock.Setup(repo => repo.GetByIdAsync(person.Id)).ReturnsAsync(person);
         _mapperMock.Setup(mapper => mapper.Map<PersonDto>(person)).Returns(personDto);
 
         // Act
-        var result = await _personService.GetByIdAsync(person.Id);
+        var result = await _service.GetByIdAsync(person.Id);
 
         // Assert
         result.Should().BeEquivalentTo(personDto);
@@ -73,7 +74,7 @@ public class PersonServiceTests
             It.IsAny<Exception>(),
             It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)!), Times.Once);
 
-        _personRepositoryMock.Verify(repo => repo.GetByIdAsync(person.Id), Times.Once);
+        _repositoryMock.Verify(repo => repo.GetByIdAsync(person.Id), Times.Once);
     }
 
     [Fact]
@@ -86,10 +87,10 @@ public class PersonServiceTests
         var logMessageSuccess = $"Person added successfully with ID: {person.Id}";
 
         _mapperMock.Setup(mapper => mapper.Map<Person>(personDto)).Returns(person);
-        _personRepositoryMock.Setup(repo => repo.AddAsync(person)).Returns(Task.CompletedTask);
+        _repositoryMock.Setup(repo => repo.AddAsync(person)).Returns(Task.CompletedTask);
 
         // Act
-        var result = await _personService.AddAsync(personDto);
+        var result = await _service.AddAsync(personDto);
 
         // Assert
         result.Should().Be(person.Id);
@@ -106,7 +107,7 @@ public class PersonServiceTests
             It.IsAny<Exception>(),
             It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)!), Times.Once);
 
-        _personRepositoryMock.Verify(repo => repo.AddAsync(person), Times.Once);
+        _repositoryMock.Verify(repo => repo.AddAsync(person), Times.Once);
     }
 
     [Fact]
@@ -118,12 +119,12 @@ public class PersonServiceTests
         var logMessageUpdate = $"Updating person with ID: {personDto.Id}";
         var logMessageSuccess = $"Person with ID: {personDto.Id} updated successfully";
 
-        _personRepositoryMock.Setup(repo => repo.GetByIdAsync(personDto.Id)).ReturnsAsync(person);
+        _repositoryMock.Setup(repo => repo.GetByIdAsync(personDto.Id)).ReturnsAsync(person);
         _mapperMock.Setup(mapper => mapper.Map(personDto, person));
-        _personRepositoryMock.Setup(repo => repo.UpdateAsync(person)).Returns(Task.CompletedTask);
+        _repositoryMock.Setup(repo => repo.UpdateAsync(person)).Returns(Task.CompletedTask);
 
         // Act
-        var result = await _personService.UpdateAsync(personDto);
+        var result = await _service.UpdateAsync(personDto);
 
         // Assert
         result.Should().BeTrue();
@@ -140,7 +141,7 @@ public class PersonServiceTests
             It.IsAny<Exception>(),
             It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)!), Times.Once);
 
-        _personRepositoryMock.Verify(repo => repo.UpdateAsync(person), Times.Once);
+        _repositoryMock.Verify(repo => repo.UpdateAsync(person), Times.Once);
     }
 
     [Fact]
@@ -152,11 +153,11 @@ public class PersonServiceTests
         var logMessageDelete = $"Deleting person with ID: {personId}";
         var logMessageSuccess = $"Person with ID: {personId} deleted successfully";
 
-        _personRepositoryMock.Setup(repo => repo.GetByIdAsync(personId)).ReturnsAsync(person);
-        _personRepositoryMock.Setup(repo => repo.DeleteAsync(personId)).Returns(Task.CompletedTask);
+        _repositoryMock.Setup(repo => repo.GetByIdAsync(personId)).ReturnsAsync(person);
+        _repositoryMock.Setup(repo => repo.DeleteAsync(personId)).Returns(Task.CompletedTask);
 
         // Act
-        var result = await _personService.DeleteAsync(personId);
+        var result = await _service.DeleteAsync(personId);
 
         // Assert
         result.Should().BeTrue();
@@ -173,6 +174,6 @@ public class PersonServiceTests
             It.IsAny<Exception>(),
             It.Is<Func<It.IsAnyType, Exception, string>>((v, t) => true)!), Times.Once);
 
-        _personRepositoryMock.Verify(repo => repo.DeleteAsync(personId), Times.Once);
+        _repositoryMock.Verify(repo => repo.DeleteAsync(personId), Times.Once);
     }
 }

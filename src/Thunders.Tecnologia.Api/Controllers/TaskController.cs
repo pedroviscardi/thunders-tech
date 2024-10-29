@@ -47,10 +47,10 @@ public class TaskController : ControllerBase
     ///     Retrieves all Tasks' data.
     /// </summary>
     /// <returns>An <see cref="IActionResult" /> containing a list of all Tasks.</returns>
-    [HttpGet("get/all")]
-    public async Task<IActionResult> GetAll()
+    [HttpGet("get/all/{idPerson:guid}")]
+    public async Task<IActionResult> GetAll(Guid idPerson)
     {
-        var query = new GetAllTasksQuery();
+        var query = new GetAllTasksQuery(idPerson);
         var tasks = await _mediator.Send(query);
         return Ok(tasks);
     }
